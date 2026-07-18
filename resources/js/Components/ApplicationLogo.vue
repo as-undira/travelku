@@ -1,0 +1,12 @@
+<template>
+    <div
+        class="
+            text-3xl
+            font-bold
+            tracking-wide
+            text-white
+        "
+    >
+        Travelku
+    </div>
+</template>
