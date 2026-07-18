@@ -535,6 +535,9 @@ const itineraryList = (
                             </p>
 
                             <Link
+                                v-if="
+                                    schedule.remaining_quota > 0
+                                "
                                 :href="
                                     route(
                                         'booking.create',
@@ -556,6 +559,22 @@ const itineraryList = (
                             >
                                 Booking Sekarang
                             </Link>
+
+                            <div
+                                v-else
+                                class="
+                                    mt-5
+                                    rounded-xl
+                                    bg-red-100
+                                    px-5
+                                    py-3
+                                    text-center
+                                    font-semibold
+                                    text-red-600
+                                "
+                            >
+                                Kuota Penuh
+                            </div>
                         </div>
                     </div>
 

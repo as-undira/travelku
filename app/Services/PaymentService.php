@@ -30,6 +30,12 @@ class PaymentService
     public function cancel(
         Booking $booking
     ) {
+        $booking->schedule
+            ->increment(
+                'remaining_quota',
+                $booking->participant_count
+            );
+
         $booking->update([
             'status' => 'cancelled',
         ]);

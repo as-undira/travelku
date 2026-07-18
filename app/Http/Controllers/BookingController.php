@@ -142,11 +142,28 @@ class BookingController extends Controller
             abort(403);
         }
 
+        if (
+            $booking->status !==
+            'pending_payment'
+        ) {
+            return redirect()
+                ->route(
+                    'booking.index'
+                );
+        }
+
         $service->pay(
             $booking
         );
 
-        return back();
+        return redirect()
+            ->route(
+                'booking.index'
+            )
+            ->with(
+                'success',
+                'Pembayaran berhasil.'
+            );
     }
 
     public function cancel(

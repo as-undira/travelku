@@ -13,7 +13,9 @@ class BookingService
         $participant
     ) {
         $schedule =
-            PackageSchedule::findOrFail(
+            PackageSchedule::with(
+                'package'
+            )->findOrFail(
                 $scheduleId
             );
 
@@ -27,19 +29,27 @@ class BookingService
         }
 
         $price =
-            $schedule->package->price;
+            $schedule
+                ->package
+                ->price;
 
         $discount =
-            $user->discount_percentage;
+            $user
+                ->discount_percentage;
 
         $subtotal =
-            $price * $participant;
+            $price *
+            $participant;
+
+        $discountAmount =
+            $subtotal *
+            $discount / 100;
 
         $total =
             $subtotal -
-            ($subtotal * $discount / 100);
+            $discountAmount;
 
-        return Booking::create([
+        $booking = Booking::create([
             'user_id' => $user->id,
             'package_schedule_id' => $scheduleId,
             'participant_count' => $participant,
@@ -49,5 +59,12 @@ class BookingService
             'booking_date' => now(),
             'status' => 'pending_payment',
         ]);
+
+        $schedule->decrement(
+            'remaining_quota',
+            $participant
+        );
+
+        return $booking;
     }
 }

@@ -83,11 +83,18 @@ defineProps({
                 <template v-else>
 
                     <Link
-                        :href="
-                            route(
-                                'user.dashboard'
-                            )
+                        :href="route('booking.index')"
+                        class="
+                            text-gray-600
+                            transition
+                            hover:text-blue-600
                         "
+                    >
+                        My Booking
+                    </Link>
+
+                    <Link
+                        :href="route('profile.edit')"
                         class="
                             rounded-lg
                             bg-blue-600

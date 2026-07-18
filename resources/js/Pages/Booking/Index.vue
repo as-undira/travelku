@@ -83,7 +83,7 @@ function badge(status) {
             <Link
                 :href="
                     route(
-                        'user.dashboard'
+                        'home'
                     )
                 "
                 class="
@@ -94,7 +94,7 @@ function badge(status) {
                     text-white
                 "
             >
-                Dashboard
+                Home
             </Link>
         </div>
     </nav>
