@@ -1,58 +1,222 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Travelku - Engineering a Travel Agentic Ecosystem
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Summary
+Travelku merupakan aplikasi web pemesanan paket wisata berbasis Laravel yang menerapkan konsep *agentic system* melalui fitur Loyalty Reward Optimizer. Sistem memungkinkan pengguna melakukan pemesanan paket wisata, pembayaran, pengelolaan booking, serta memperoleh reward dan diskon secara otomatis berdasarkan total jarak perjalanan yang telah diselesaikan.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+# Demo
+Live URL:
+https://travelku-production.up.railway.app
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+# Features
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## User
+- Registrasi dan Login
+- Melihat daftar paket wisata
+- Melihat detail paket dan jadwal keberangkatan
+- Melakukan booking paket wisata
+- Pembayaran booking
+- Melihat riwayat booking
+- Membatalkan booking yang belum dibayar
+- Sistem loyalty dan diskon otomatis
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Admin
+- Dashboard admin
+- CRUD Paket Wisata
+- CRUD Jadwal Keberangkatan
+- Monitoring seluruh booking
+- Menyelesaikan perjalanan (*complete booking*)
+- Menjalankan Loyalty Reward Optimizer
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+---
 
-## Agentic Development
+# Application Flow
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
-
-```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+```text
+Guest
+↓
+Melihat Paket Wisata
+↓
+Login / Register
+↓
+Pilih Jadwal
+↓
+Booking Paket
+↓
+Status : Pending Payment
+↓
+Pembayaran
+↓
+Status : Paid
+↓
+Admin Menyelesaikan Perjalanan
+↓
+Status : Completed
+↓
+Loyalty Reward Optimizer
+↓
+Update Tier & Discount
+↓
+Diskon Digunakan Pada Booking Berikutnya
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+---
 
-## Contributing
+# Loyalty Reward System
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+| Tier | Minimum Distance | Discount |
+|------|-----------------|-----------|
+| Bronze | 0 KM | 0% |
+| Silver | 1000 KM | 5% |
+| Gold | 3000 KM | 10% |
+| Platinum | 5000 KM | 15% |
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+# Request Life Cycle Laravel
 
-## Security Vulnerabilities
+```text
+User Request
+↓
+Route
+↓
+Middleware
+↓
+Controller
+↓
+Service Layer
+↓
+Eloquent Model
+↓
+PostgreSQL Database
+↓
+Response (Inertia + Vue)
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+# Tech Stack
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Backend
+- PHP 8.4
+- Laravel 13
+- Laravel Breeze
+- Inertia.js
+- Ziggy
+
+## Frontend
+- Vue 3
+- Tailwind CSS
+- JavaScript
+
+## Database
+- PostgreSQL (Supabase)
+
+## Deployment
+- Railway
+
+## Development Tools
+- Visual Studio Code
+- Git
+- GitHub
+- Postman
+
+---
+
+# Agentic System
+
+Travelku mengimplementasikan konsep *Rule-Based Agent* melalui service:
+
+```text
+LoyaltyRewardOptimizerService
+```
+
+Service tersebut bertugas:
+
+1. Menghitung total jarak perjalanan pengguna.
+2. Menentukan tier loyalty.
+3. Menghitung diskon yang diperoleh.
+4. Memperbarui data pengguna secara otomatis.
+
+---
+
+# Main Service Layer
+
+```text
+BookingService
+PaymentService
+LoyaltyRewardOptimizerService
+```
+
+---
+
+# Database Main Entities
+
+```text
+Users
+Packages
+Package Schedules
+Bookings
+```
+
+---
+
+# Booking Status Flow
+
+```text
+pending_payment
+↓
+paid
+↓
+completed
+```
+
+atau
+
+```text
+pending_payment
+↓
+cancelled
+```
+
+---
+
+# Folder Structure
+
+```text
+app/
+ ├── Http/Controllers
+ ├── Models
+ ├── Services
+
+resources/
+ └── js/
+     ├── Pages
+     ├── Components
+
+routes/
+ └── web.php
+```
+
+---
+
+# Technical Notes
+
+- Menggunakan Service Layer Pattern.
+- Menggunakan Middleware Authentication dan Role Authorization.
+- Menggunakan Inertia SPA Architecture.
+- Menggunakan Rule-Based Agent untuk optimasi loyalty.
+- Sistem kuota jadwal berkurang berdasarkan jumlah peserta booking.
+- Diskon loyalty diterapkan secara otomatis pada booking berikutnya.
+
+---
+
+# Non Technical Information
+
+Metodologi pengembangan yang digunakan adalah pendekatan iteratif dengan pemisahan antara business logic dan presentation layer agar aplikasi mudah dikembangkan dan dipelihara. Sistem dirancang untuk meningkatkan pengalaman pengguna melalui mekanisme reward otomatis dan proses booking yang sederhana.
+
+---
